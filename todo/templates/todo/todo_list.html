@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block navigation %}
+<div class="w-50 p-3 m-auto d-flex justify-content-start">
+    <a class="btn btn-primary" href="{% url 'todo:todo_create' %}">Добавить новую задачу</a>
+</div>
+{% endblock navigation %}
+{% block content %}
+<ul class="list-group">
+    {%if not todo_list %}
+    <li class="list-group-item d-flex">
+        <p class="fs-5 text-muted">Ваш список задач пуст</p>
+    </li>
+    {% endif %}
+    {% for todo in todo_list %}
+    <li class="list-group-item d-flex">
+        <div class="p-2 w-100 todos-item-text">
+            <div class="text-muted mb-2" style="font-size:20px;">
+                {% if todo.date %}
+                {{ todo.date.day }}.{{ todo.date.month }}.{{ todo.date.year }}
+                {% else %}
+                Нет срока
+                {% endif %}
+                {% if todo.status == "N" %}
+                <span class="badge bg-primary">{{ todo.get_status_display }}</span>
+                {% elif todo.status == "C"%}
+                <span class="badge bg-secondary">{{ todo.get_status_display }}</span>
+                {% else %}
+                <span class="badge bg-success">{{ todo.get_status_display }}</span>
+                {% endif %}
+            </div>
+            <p class="fs-5"><a href="{% url 'todo:todo_detail' todo.pk %}" class="link-dark">{{todo.description}}</a>
+            </p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock content %}
