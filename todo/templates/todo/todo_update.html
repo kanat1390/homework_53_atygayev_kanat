@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block navigation %}
+<div class="w-50 p-3 m-auto d-flex justify-content-start">
+    <a class="btn btn-secondary" href="{% url 'todo:todo_detail' todo.pk %}">Назад</a>
+</div>
+{% endblock navigation %}
+
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.media}}
+    <label for="description" class="form-label">Название задачи</label>
+    {{form.description}}
+    <label for="text" class="form-label">Описание</label>
+    {{form.text}}
+    <label for="status" class="form-label">Статус</label>
+    {{form.status}}
+    <label for="date" class="form-label">Срок выполнения(y-m-d)</label>
+    <p> <input type="date" id="date" name="date" class="form-control due-date" value="{{todo.date|date:'Y-m-d'}}"></p>
+    <button class="btn btn-primary mt-3" type="submit">Применить</button>
+</form>
+{% endblock content %}
