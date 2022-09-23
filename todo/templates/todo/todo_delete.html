@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block navigation %}
+<div class="w-50 p-3 m-auto d-flex justify-content-start">
+    <a class="btn btn-secondary" href="{% url 'todo:todo_detail' todo.pk %}">Назад</a>
+</div>
+{% endblock navigation %}
+
+{% block content %}
+<ul class="list-group">
+    <li class="list-group-item d-flex">
+        <div class="p-2 w-100 todos-item-text">
+            <div class="text-muted mb-2" style="font-size:20px;">
+                {% if todo.date %}
+                {{ todo.date.day }}.{{ todo.date.month }}.{{ todo.date.year }}
+                {% else %}
+                Нет срока
+                {% endif %}
+                {% if todo.status == "N" %}
+                <span class="badge bg-primary">{{ todo.get_status_display }}</span>
+                {% elif todo.status == "C"%}
+                <span class="badge bg-secondary">{{ todo.get_status_display }}</span>
+                {% else %}
+                <span class="badge bg-success">{{ todo.get_status_display }}</span>
+                {% endif %}
+            </div>
+            <p class="fs-5">{{todo.description}}</p>
+        </div>
+    </li>
+    <li class="list-group-item d-flex" style="border-bottom: None;">
+        <div class="p-2 w-100 todos-item-text">
+            <h5>Вы действительно желаете удалить запись?</h5>
+        </div>
+    </li>
+    <li class="list-group-item d-flex">
+        <div class="p-2 w-100 todos-item-text">
+            <form action="{% url 'todo:todo_delete' todo.pk %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="confirm" hidden>
+                <button type="submit" class="btn btn-danger" style="min-width: 100px;">Да</button>
+                <a href="{% url 'todo:todo_detail' todo.pk %}" class="btn btn-secondary"
+                    style="min-width: 100px;">Нет</a>
+            </form>
+        </div>
+    </li>
+</ul>
+{% endblock content %}
