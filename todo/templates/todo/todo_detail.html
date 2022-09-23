@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navigation %}
+<div class="w-50 p-3 m-auto d-flex justify-content-start">
+    <a class="btn btn-secondary" href="{% url 'todo:todo_list' %}">Назад</a>
+</div>
+{% endblock navigation %}
+
+{% block content %}
+<ul class="list-group">
+    <li class="list-group-item d-flex">
+        <div class="p-2 w-100 todos-item-text">
+            <div class="text-muted mb-2" style="font-size:20px;">
+                {% if todo.date %}
+                {{ todo.date.day }}.{{ todo.date.month }}.{{ todo.date.year }}
+                {% else %}
+                Нет срока
+                {% endif %}
+                {% if todo.status == "N" %}
+                <span class="badge bg-primary">{{ todo.get_status_display }}</span>
+                {% elif todo.status == "C"%}
+                <span class="badge bg-secondary">{{ todo.get_status_display }}</span>
+                {% else %}
+                <span class="badge bg-success">{{ todo.get_status_display }}</span>
+                {% endif %}
+            </div>
+            <h4>Название задачи:</h4>
+            <p class="fs-5">{{todo.description}}</p>
+            <h4>Описание задачи:</h4>
+            {% if todo.text %}
+            <p class="fs-5">{{todo.text|safe}}</p>
+            {% else %}
+            <p class="fs-5">Описание отсутствует</p>
+            {% endif %}
+        </div>
+        <div class=" p-2 flex-shrink-1 d-flex justify-content-between todos-item-btns">
+            <div class="todos-actions-btn">
+                <a href="{% url 'todo:todo_update' todo.pk %}">
+                    <img src="{% static 'todo/images/icons/edit.svg' %}" alt="edit-todo" /></a>
+            </div>
+            <div class="todos-actions-btn">
+                <a href="{% url 'todo:todo_delete' todo.pk %}">
+                    <img src="{% static 'todo/images/icons/delete.svg' %}" alt="delete-todo" />
+                </a>
+            </div>
+        </div>
+    </li>
+</ul>
+{% endblock content %}
