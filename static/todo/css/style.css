@@ -1,0 +1,15 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.app-title a {
+    text-decoration: None;
+    color: #3289CE;
+}
+
+.select-status,
+.due-date {
+    width: 200px;
+}
